@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import useChambres from '../hooks/useChambres';
 import './Chambres.css';
+import PhotoUploader from './PhotoUploader';
+import PhotoUploaderInline from './PhotoUploaderInline';
+
+
 
 const Chambres = ({ urlServer }) => {
   const { rooms, newRoom, handleChange, handleCreate, deleteRoom, updateRoom } = useChambres(urlServer);
   const [editing, setEditing] = useState(null);
   const [editData, setEditData] = useState({ name: '', type: '', available: true, loyer: '', description: '' });
+  const [openUploaderId, setOpenUploaderId] = useState(null);
+
 
   const startEdit = (room) => {
     setEditing(room.id);
@@ -59,44 +65,39 @@ const Chambres = ({ urlServer }) => {
         </thead>
         <tbody>
           {rooms.map(room => (
-            <tr key={room.id}>
-              {editing === room.id ? (
-                <>
-                  <td><input value={editData.name} name="name" onChange={handleEditChange} /></td>
-                  <td>
-                    <select name="type" value={editData.type} onChange={handleEditChange}>
-                      <option value="chambre">Chambre</option>
-                      <option value="studio">Studio</option>
-                      <option value="appartement">Appartement</option>
-                    </select>
+            <>
+              <tr key={room.id}>
+                <td>{room.name}</td>
+                <td>{room.type}</td>
+                <td>{room.available ? 'Oui' : 'Non'}</td>
+                <td>
+                  <button onClick={() => startEdit(room)}>✏️</button>
+                  <button onClick={() => deleteRoom(room.id)}>🗑️</button>
+                  <button onClick={() => setOpenUploaderId(openUploaderId === room.id ? null : room.id)}>📸</button>
+                </td>
+              </tr>
+
+              {/* Ligne affichée uniquement si l'upload est ouvert pour cette chambre */}
+              {openUploaderId === room.id && (
+                <tr>
+                  <td colSpan="4">
+                    <PhotoUploaderInline
+                      chambreId={room.id}
+                      urlServer={urlServer}
+                      onUploaded={() => {
+                        setOpenUploaderId(null);
+                        alert("Photos ajoutées !");
+                      }}
+                    />
                   </td>
-                  <td><input type="number" name="loyer" value={editData.loyer} onChange={handleEditChange} /></td>
-                  <td><input type="text" name="description" value={editData.description} onChange={handleEditChange} /></td>
-                  <td>
-                    <input type="checkbox" name="available" checked={editData.available} onChange={handleEditChange} />
-                  </td>
-                  <td>
-                    <button onClick={submitEdit}>💾</button>
-                    <button onClick={() => setEditing(null)}>❌</button>
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td>{room.name}</td>
-                  <td>{room.type}</td>
-                  <td>{room.loyer} €</td>
-                  <td>{room.description}</td>
-                  <td>{room.available ? 'Oui' : 'Non'}</td>
-                  <td>
-                    <button onClick={() => startEdit(room)}>✏️</button>
-                    <button onClick={() => deleteRoom(room.id)}>🗑️</button>
-                  </td>
-                </>
+                </tr>
               )}
-            </tr>
+            </>
           ))}
         </tbody>
+
       </table>
+
     </section>
   );
 };

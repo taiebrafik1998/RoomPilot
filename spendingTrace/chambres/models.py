@@ -16,3 +16,11 @@ class Chambre(models.Model):
     def __str__(self):
         return f"{self.name} - {self.type}"
 
+
+class Photo(models.Model):
+    chambre = models.ForeignKey("Chambre", on_delete=models.CASCADE, related_name="photos")
+    image = models.ImageField(upload_to='chambres/photos/')
+    caption = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"Photo de {self.chambre.name}"

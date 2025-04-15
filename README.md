@@ -10,6 +10,8 @@ Elle permet de :
 - Relier les locataires à leurs chambres
 - Ajouter, supprimer, modifier des informations
 - Voir l’état d’occupation des chambres
+- 📸 Ajouter plusieurs **photos** pour chaque chambre
+- 🗂️ Gérer les **images** côté backend et frontend
 
 ---
 
@@ -22,6 +24,7 @@ app01/
 │   ├── locataires/          # App Django pour la gestion des locataires
 │   └── ...
 ├── spending_frontend/       # Frontend React
+├── media/                   # 📁 Contient les images uploadées (via ImageField)
 ├── db.sqlite3               # Base de données SQLite (développement)
 └── manage.py
 ```
@@ -83,7 +86,8 @@ npm start
 ## 📌 Fonctionnalités actuelles
 
 - 🔹 Création de locataires liés à des chambres
-- 🔹 Gestion des chambres (type, disponibilité)
+- 🔹 Gestion des chambres (type, disponibilité, loyer, description)
+- 🔹 Upload de plusieurs photos par chambre (ImageField Django + React)
 - 🔹 Supprimer un locataire avec un bouton contextuel
 - 🔹 Composants React modulaires avec logique séparée (hooks)
 
@@ -106,7 +110,7 @@ Pull requests bienvenues ! N’hésite pas à forker le projet, créer une branc
 ## 👨‍💻 Auteur
 
 **Taieb Rafik**  
-📧 mtayeb.rafik@gmail.com
+📧 mtaieb.rafik@gmail.com
 
 ---
 
