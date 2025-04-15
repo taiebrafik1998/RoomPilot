@@ -10,6 +10,8 @@ class Chambre(models.Model):
         ('appartement', 'Appartement'),
     ])
     available = models.BooleanField(default=True)
+    loyer = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)  
+    description = models.TextField(blank=True) 
 
     def __str__(self):
         return f"{self.name} - {self.type}"

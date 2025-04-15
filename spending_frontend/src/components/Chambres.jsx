@@ -5,8 +5,7 @@ import './Chambres.css';
 const Chambres = ({ urlServer }) => {
   const { rooms, newRoom, handleChange, handleCreate, deleteRoom, updateRoom } = useChambres(urlServer);
   const [editing, setEditing] = useState(null);
-
-  const [editData, setEditData] = useState({ name: '', type: '', available: true });
+  const [editData, setEditData] = useState({ name: '', type: '', available: true, loyer: '', description: '' });
 
   const startEdit = (room) => {
     setEditing(room.id);
@@ -37,6 +36,8 @@ const Chambres = ({ urlServer }) => {
             <option value="studio">Studio</option>
             <option value="appartement">Appartement</option>
           </select>
+          <input type="number" name="loyer" placeholder="Loyer (€)" value={newRoom.loyer} onChange={handleChange} />
+          <input type="text" name="description" placeholder="Description" value={newRoom.description} onChange={handleChange} />
           <label>
             Disponible
             <input type="checkbox" name="available" checked={newRoom.available} onChange={handleChange} />
@@ -50,6 +51,8 @@ const Chambres = ({ urlServer }) => {
           <tr>
             <th>Nom</th>
             <th>Type</th>
+            <th>Loyer (€)</th>
+            <th>Description</th>
             <th>Disponible</th>
             <th>Actions</th>
           </tr>
@@ -67,6 +70,8 @@ const Chambres = ({ urlServer }) => {
                       <option value="appartement">Appartement</option>
                     </select>
                   </td>
+                  <td><input type="number" name="loyer" value={editData.loyer} onChange={handleEditChange} /></td>
+                  <td><input type="text" name="description" value={editData.description} onChange={handleEditChange} /></td>
                   <td>
                     <input type="checkbox" name="available" checked={editData.available} onChange={handleEditChange} />
                   </td>
@@ -79,6 +84,8 @@ const Chambres = ({ urlServer }) => {
                 <>
                   <td>{room.name}</td>
                   <td>{room.type}</td>
+                  <td>{room.loyer} €</td>
+                  <td>{room.description}</td>
                   <td>{room.available ? 'Oui' : 'Non'}</td>
                   <td>
                     <button onClick={() => startEdit(room)}>✏️</button>
